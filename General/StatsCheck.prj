@@ -1,0 +1,120 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="2400934328" file="/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck.prj" location="/Users/SamPenDu/Dropbox/Toolboxes/General" name="StatsCheck" preferred-package-location="/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck/for_redistribution" preferred-package-type="package.type.app" target="target.ezdeploy.standalone" target-name="MATLAB Compiler for Standalone Applications">
+    <param.appname>StatsCheck</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Sam Schwarzkopf</param.authnamewatermark>
+    <param.email>ds.schwarzkopf@gmail.com</param.email>
+    <param.company>SamPenDu</param.company>
+    <param.summary>Quick check inferential statistics</param.summary>
+    <param.description />
+    <param.screenshot>/Users/SamPenDu/Dropbox/Work in Progress/splash.png</param.screenshot>
+    <param.guid />
+    <param.installpath.string>/SamPenDu/StatsCheck/</param.installpath.string>
+    <param.installpath.combo>option.installpath.systemwideapp</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.intermediate>${PROJECT_ROOT}/StatsCheck/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/StatsCheck/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/StatsCheck/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.server.ctf>${PROJECT_ROOT}/StatsCheck/for_testing/.ctf</param.server.ctf>
+    <param.server.readme>${PROJECT_ROOT}/StatsCheck/for_testing/readme.txt</param.server.readme>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+      <item>35001</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.description />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.embed.ctf />
+      <param.server.ctf />
+      <param.server.readme />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/StatsCheck.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}/StatsCheck.fig</file>
+      <file>${PROJECT_ROOT}/p_value.m</file>
+      <file>${PROJECT_ROOT}/r2t.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/StatsCheck/for_testing" name="splash.png" optional="false">/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/StatsCheck/for_testing" name="StatsCheck.app" optional="false">/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck/for_testing/StatsCheck.app</file>
+      <file location="${PROJECT_ROOT}/StatsCheck/for_testing" name="readme.txt" optional="true">/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/StatsCheck/for_testing" name="run_StatsCheck.sh" optional="false">/Users/SamPenDu/Dropbox/Toolboxes/General/StatsCheck/for_testing/run_StatsCheck.sh</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2014b.app</root>
+      <toolboxes>
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.11.5</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
