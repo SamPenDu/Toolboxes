@@ -6,7 +6,7 @@ if nargin < 2
 end
 
 %% Select all Dicom files
-cd([Subj '\dicom']);
+cd([Subj '/dicom']);
 fn = dir('*R*'); % *.ima at BUCNI 
 mh = 0;
 for i = 1:length(fn) 
@@ -28,16 +28,16 @@ hdr = spm_dicom_headers(P);
 spm_dicom_convert(hdr,'all','flat','nii');
 
 %% Move data to new SPM folder
-mkdir('..\spm');
-cd('..\spm');
-dos('move ..\dicom\*.nii .');
+mkdir('../spm');
+cd('../spm');
+dos('move ../dicom/*.nii .');
 
 %% Rename structurals
 dos(['move s*-000208-01.nii T1_' Subj '.nii']);
 
 %% Copy T1 to mri folder & convert to MGZ
-mkdir('..\mri');
-dos(['copy T1_' Subj '.nii ..\mri']);
+mkdir('../mri');
+dos(['copy T1_' Subj '.nii ../mri']);
 
 %% Create 4D niftis
 rn = dir('f*-00001-000001-01.nii');
@@ -79,4 +79,4 @@ new_line;
 rn = dir('*.nii');
 rn = {rn.name}';
 disp(rn);
-cd ..\..
+cd ../..
