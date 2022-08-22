@@ -7,7 +7,7 @@ function fmri_SpmPreproc(Subj)
 %% Basic parameters
 disp('Preprocessing data...');
 new_line;
-cd([Subj '\spm']);
+cd([Subj filesep 'spm']);
 niis = dir('Run_*.nii');
 niis = {niis.name}';
 disp(' Realigning runs:');
@@ -17,7 +17,7 @@ cs = cd;
 ExpFolder = [cs filesep];
 sl = strfind(cs, filesep);
 cs = cs(sl(end)+1:end);
-refimg = ['T1_' Subj '.nii'];
+refimg = ['..' filesep 'mri' filesep 'T1_' Subj '.nii'];
 Prefix = '';
 % Load preprocessing parameters
 load('fmri_Preprocessing.mat');
@@ -95,4 +95,4 @@ new_line;
 disp(' Please check coregistration!');
 new_line;
 dos('del *.mat');
-cd ..\..
+cd ../..
