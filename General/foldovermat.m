@@ -5,7 +5,7 @@ function Y = foldovermat(X)
 % Since cells are averaged you may wish to z-transform them first.
 
 Y = zeros(size(X)); 
-for r = 1:8 
+for r = 1:size(X,1) 
     for c = 0:r 
         if c > 0 
             Y(c,r) = mean([X(r,c) X(c,r)]); 
