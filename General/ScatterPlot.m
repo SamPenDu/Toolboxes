@@ -37,7 +37,7 @@ hold on
 
 % Scatter plots
 scatter(X, Y, 100, Colour, 'filled'); 
-set(gca, 'fontsize', 15);
+set(gca, 'fontsize', 12);
 axis square
 
 % Regression lines
