@@ -2,7 +2,8 @@ function P = bs_prev(X, DispOn)
 %
 % P = bs_prev(X, [DispOn=true])
 %
-% Bootstrapped prevalence test. Returns in P the estimated prevalence & its 95% confidence interval.
+% Bootstrapped prevalence test. Returns in P the estimated prevalence, 
+%   its 95% confidence interval & the associated one-tailed p-value.
 %
 %   X contains the bootstrap iterations for each subject/observation in the data sample.
 %    So for example if you have five subjects and bootstrapped their result 10000 times,
@@ -10,7 +11,7 @@ function P = bs_prev(X, DispOn)
 %
 %   DispOn toggles whether the bootstrapped prevalence distribution is plotted.
 %
-% 01/11/2022 - Written (DSS)
+% 03/11/2022 - Working version (DSS)
 %
 
 % Determine bootstrapped iterations in same direction as grand mean
@@ -19,8 +20,8 @@ S = sign(X) == sign(nanmean(X(:)));
 sP = mean(S);
 % Bootstrapped population prevalence distribution
 bsP = bootstrp(10000, @mean, sP);
-% Prevalence & confidence interval
-P = [mean(sP) prctile(bsP, [2.5 97.5])];
+% Prevalence & confidence interval & p-value
+P = [mean(sP) prctile(bsP, [2.5 97.5]) mean(bsP <= 0.5)];
 
 % Plot figure?
 if nargin < 2 || DispOn
