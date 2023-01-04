@@ -56,7 +56,7 @@ for i = 1:n
     else
         [dn, dx] = ksdensity(cY, min(cY):range(cY)/100:max(cY)); % Smooth distribution
     end
-    dn = dn / max(dn) * 0.3; % Normalise density
+    dn = dn / max(dn) * 0.2; % Normalise density
     h = [h; fill([dn -fliplr(dn)]+x(i), [dx fliplr(dx)], (col(i,:)+[2 2 2])/3, 'edgecolor', col(i,:), 'linewidth', wid)]; % Plot cat eye
     line([1 1] * x(i), qs, 'color', (col(i,:)+[0 0 0])/2, 'linewidth', wid); % Plot inter-quartile range
     scatter(x(i), median(cY), 80, 'o', 'markeredgecolor', (col(i,:)+[0 0 0])/2, 'markerfacecolor', (col(i,:)+[0 0 0])/2, 'linewidth', wid); % Plot median
