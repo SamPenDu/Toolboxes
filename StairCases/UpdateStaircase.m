@@ -10,8 +10,9 @@ function [Staircase, IsReversal] = UpdateStaircase(Condit, InStairs, StepSize, J
 % You can use this to prevent a 50% staircase from saturating at chance.
 % 
 %   Jitter(1) defines the probability that a given trial is jittered. 
-%   Jitter(2) defines the number of ste sizes by which the current level is moved back 
-%             to an easier level = -StepSize * Jitter(2) Jitter(2) defaults to 3 step sizes.
+%   Jitter(2) defines the number of step sizes by which the current level is moved back 
+%             to an easier level = -StepSize * Jitter(2) 
+%             Jitter(2) defaults to 3 step sizes.
 % 
 
 if nargin < 4
