@@ -6,7 +6,7 @@ function F = FitPsychFunc(x,y,FixAmp)
 %       x is a vector with the values of the independent variable
 %       y is a vector of the choice probability 
 %           Optionally, y can also have a second column with weights for a robust fit
-%       FixAmp is a scalar to defined if the amplitude is fixed
+%       FixAmp is a scalar to define if the amplitude is fixed
 %           If left undefined, this defaults to NaN which means the amplitude is a free parameter
 %           Setting this to 1 would mean the curve spans the whole range from 0-1
 %
