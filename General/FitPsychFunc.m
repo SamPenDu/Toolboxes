@@ -16,7 +16,8 @@ function F = FitPsychFunc(x,y,FixAmp)
 %       amplitude (fitted: asymptote on each end) - if not fixed!
 %       baseline (fixed: (1-amplitude)/2)
 %       rsquare of the curve fit 
-%       x is original x data vector
+%       function is the fitted function
+%       x & y are the input data
 %
 %   11/03/2014 - added exhaustive grid search for seed parameters (DSS)
 %   17/08/2015 - fixed a bug with too many output variables (DSS)
@@ -63,6 +64,8 @@ F.amplitude = f(3);
 F.baseline = (1-f(3))/2;
 F.rsquare = 1 - r/sum((y(:,1)-mean(y(:,1))).^2);
 F.function = @(x) psyfun(x,f(1),f(2),f(3));
+F.x = x;
+F.y = y;
 
 %% Internal functions
 
