@@ -1,6 +1,6 @@
-function [D, gx, gy] = density2d(X,Y,col,xyl,gc)
+function [D, gx, gy] = density2d(X, Y, col, xyl, gc, nrm)
 %
-% [D, gx, gy] = density2d(X,Y,col,xyl,gc)
+% [D, gx, gy] = density2d(X, Y, col, xyl, gc, nrm)
 %
 % Plots a 2D density histogram of variable X vs Y.
 %
@@ -12,6 +12,11 @@ function [D, gx, gy] = density2d(X,Y,col,xyl,gc)
 %   xyl:    Optional, defines the axis dimenions (see axis function).
 %
 %   gc:     Optional, defines the coarseness of the contour plot.
+%
+%   nrm:    Optional, toggles how the density is normalised:
+%               0 = no normalisation (default)
+%               1 = normalise to peak
+%              -1 = logarithmic transformation
 %       
 % Returns in D the density matrix & in gx and gy the coordinates for plotting.
 
@@ -30,6 +35,11 @@ rx = range(xyl(1:2))/(gc*2);
 ry = range(xyl(3:4))/(gc*2);
 [gx gy] = meshgrid(xyl(1)+rx:rx*2:xyl(2)-rx, xyl(3)+ry:ry*2:xyl(4)-ry);
 
+% Normalisation
+if nargin < 6
+    nrm = 0;
+end
+
 % Determine density
 D = NaN(gc,gc);
 for ix = 1:gc
@@ -38,8 +48,14 @@ for ix = 1:gc
     end
 end
 
-% Normalize
-D = D / max(D(:));
+% Normalize?
+if nrm
+    D = D / max(D(:));
+end
+% Logarithmic transformation?
+if nrm < 0
+    D = -log(D);
+end
 
 % Contour plot
 if nargout == 0
