@@ -1,5 +1,5 @@
-function OutStr = RMAOV1(Xin, F1name, lbc)
-%OutStr = RMAOV1(Xin, F1name, lbc)
+function P1 = RMAOV1(Xin, F1name, lbc)
+% P1 = RMAOV1(Xin, F1name, lbc)
 %
 % RMAOV1 Repeated Measures Single-Factor Analysis of Variance Test.
 %
@@ -176,7 +176,7 @@ for j=1:s
    eval(['S' num2str(j) '=X(Xe,1);']);
    eval(['x =((sum(S' num2str(j) ').^2)/length(S' num2str(j) '));']);
    S=[S,x]; 
-end;
+end
 
 C = (sum(X(:,1)))^2/length(X(:,1)); %correction term
 SST = sum(X(:,1).^2)-C; %total sum of squares
@@ -207,26 +207,29 @@ Bf = ftestbf(F1,v1,v3,s);
 
 if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
 
-% disp('Sphericity assumed');
-disp('--------------------------------------------------------------------');
-OutStr = [' ' F1name ': F(' n2s(v1) ',' n2s(v3) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1 ' ' evidence(Bf)];
-disp(OutStr);
-new_line;
+if nargout < 1
+    disp('Sphericity assumed');
+    disp('--------------------------------------------------------------------');
+    disp([' ' F1name ': F(' n2s(v1) ',' n2s(v3) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1 ' ' evidence(Bf)]);
+    new_line;
+end
 
 %% Lower-bound corrected
-% Determine lower-bound epsilon
-eps1 = 1 / (k-1);
-
-%Probability associated to the F-statistics.
-P1 = 1 - fcdf(F1, v1*eps1, v3*eps1);    
-P2 = 1 - fcdf(F2, v2, v3);
-Bf = ftestbf(F1, v1*eps1, v3*eps1, s);
-
-if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
-
 if (lbc)
-    disp('Lower-bound corrected');
-    disp('--------------------------------------------------------------------');
-    disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v3*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1 ' ' evidence(Bf)]);
-    new_line;
+    % Determine lower-bound epsilon
+    eps1 = 1 / (k-1);
+
+    %Probability associated to the F-statistics.
+    P1 = 1 - fcdf(F1, v1*eps1, v3*eps1);    
+    P2 = 1 - fcdf(F2, v2, v3);
+    Bf = ftestbf(F1, v1*eps1, v3*eps1, s);
+
+    if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
+
+    if nargout < 1
+        disp('Lower-bound corrected');
+        disp('--------------------------------------------------------------------');
+        disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v3*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1 ' ' evidence(Bf)]);
+        new_line;
+    end
 end

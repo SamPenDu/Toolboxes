@@ -1,5 +1,5 @@
-function [RMAOV32] = RMAOV32(X, nS, F1name, F2name, F3name)
-%[RMAOV32] = RMAOV32(X, nS, F1name, F2name, F3name)
+function P = RMAOV32(X, nS, F1name, F2name, F3name)
+% P = RMAOV32(X, nS, F1name, F2name, F3name)
 %
 % RMAOV32 Three-way Analysis of Variance With Repeated Measures on Two Factors Test.
 %
@@ -413,17 +413,19 @@ if P5 < alpha sigma5 = '  *'; else sigma5 = ''; end
 if P6 < alpha sigma6 = '  *'; else sigma6 = ''; end
 if P7 < alpha sigma7 = '  *'; else sigma7 = ''; end
 
-disp('Sphericity assumed');
-disp('--------------------------------------------------------------------');
-disp('Between-Subjects');
-disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,3)) ', p=' n2s(round_decs(P1,5)) sigma1]);
-disp('Within-Subjects');
-disp([' ' F2name ': F(' n2s(v3) ',' n2s(v5) ')=' n2s(round_decs(F2,3)) ', p=' n2s(round_decs(P2,5)) sigma2]);
-disp([' ' F1name ' x ' F2name ': F(' n2s(v4) ',' n2s(v5) ')=' n2s(round_decs(F3,3)) ', p=' n2s(round_decs(P3,5)) sigma3]);
-disp([' ' F3name ': F(' n2s(v6) ',' n2s(v8) ')=' n2s(round_decs(F4,3)) ', p=' n2s(round_decs(P4,5)) sigma4]);
-disp([' ' F1name ' x ' F3name ': F(' n2s(v7) ',' n2s(v8) ')=' n2s(round_decs(F5,3)) ', p=' n2s(round_decs(P5,5)) sigma5]);
-disp([' ' F2name ' x ' F3name ': F(' n2s(v9) ',' n2s(v11) ')=' n2s(round_decs(F6,3)) ', p=' n2s(round_decs(P6,5)) sigma6]);
-disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v10) ',' n2s(v11) ')=' n2s(round_decs(F7,3)) ', p=' n2s(round_decs(P7,5)) sigma7]);
-new_line;
+if nargout < 1
+    disp('Sphericity assumed');
+    disp('--------------------------------------------------------------------');
+    disp('Between-Subjects');
+    disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,3)) ', p=' n2s(round_decs(P1,5)) sigma1]);
+    disp('Within-Subjects');
+    disp([' ' F2name ': F(' n2s(v3) ',' n2s(v5) ')=' n2s(round_decs(F2,3)) ', p=' n2s(round_decs(P2,5)) sigma2]);
+    disp([' ' F1name ' x ' F2name ': F(' n2s(v4) ',' n2s(v5) ')=' n2s(round_decs(F3,3)) ', p=' n2s(round_decs(P3,5)) sigma3]);
+    disp([' ' F3name ': F(' n2s(v6) ',' n2s(v8) ')=' n2s(round_decs(F4,3)) ', p=' n2s(round_decs(P4,5)) sigma4]);
+    disp([' ' F1name ' x ' F3name ': F(' n2s(v7) ',' n2s(v8) ')=' n2s(round_decs(F5,3)) ', p=' n2s(round_decs(P5,5)) sigma5]);
+    disp([' ' F2name ' x ' F3name ': F(' n2s(v9) ',' n2s(v11) ')=' n2s(round_decs(F6,3)) ', p=' n2s(round_decs(P6,5)) sigma6]);
+    disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v10) ',' n2s(v11) ')=' n2s(round_decs(F7,3)) ', p=' n2s(round_decs(P7,5)) sigma7]);
+    new_line;
+end
 
-return;
+P = [P1 P2 P3 P4 P5 P6 P7];

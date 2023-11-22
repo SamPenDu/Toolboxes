@@ -1,5 +1,5 @@
-function [RMAOV2] = RMAOV2(X, nS, F1name, F2name, lbc)
-%[RMAOV2] = RMAOV2(X, nS, F1name, F2name, lbc)
+function P = RMAOV2(X, nS, F1name, F2name, lbc)
+% P = RMAOV2(X, nS, F1name, F2name, lbc)
 %
 % RMAOV2 Repeated Measures Two-way Analysis of Variance Test.
 %
@@ -275,36 +275,40 @@ if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
 if P2 < alpha sigma2 = '  *'; else sigma2 = ''; end
 if P3 < alpha sigma3 = '  *'; else sigma3 = ''; end
 
-disp('Sphericity assumed');
-disp('--------------------------------------------------------------------');
-disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1]);
-disp([' ' F2name ': F(' n2s(v3) ',' n2s(v4) ')=' n2s(round_decs(F2,2)) ', p=' n2s(round_decs(P2,5)) sigma2]);
-disp([' ' F1name ' x ' F2name ': F(' n2s(v5) ',' n2s(v6) ')=' n2s(round_decs(F3,2)) ', p=' n2s(round_decs(P3,5)) sigma3]);
-new_line;
-
-
-%% Lower-bound corrected
-% Determine lower-bound epsilon
-eps1 = 1 / (a-1);
-eps2 = 1 / (b-1);
-eps3 = 1 / (max([a b])-1);
-
-%Probability associated to the F-statistics.
-P1 = 1 - fcdf(F1, v1*eps1, v2*eps1);    
-P2 = 1 - fcdf(F2, v3*eps2, v4*eps2);   
-P3 = 1 - fcdf(F3, v5*eps3, v6*eps3);
-P4 = 1 - fcdf(F4, v7, v8);
-
-if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
-if P2 < alpha sigma2 = '  *'; else sigma2 = ''; end
-if P3 < alpha sigma3 = '  *'; else sigma3 = ''; end
-
-if (lbc)
-    disp('Lower-bound corrected');
+if nargout < 1
+    disp('Sphericity assumed');
     disp('--------------------------------------------------------------------');
-    disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v2*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1]);
-    disp([' ' F2name ': F(' n2s(v3*eps2) ',' n2s(v4*eps2) ')=' n2s(F2) ', p=' n2s(P2) ', e=' n2s(eps2) sigma2]);
-    disp([' ' F1name ' x ' F2name ': F(' n2s(v5*eps3) ',' n2s(v6*eps3) ')=' n2s(F3) ', p=' n2s(P3) ', e=' n2s(eps3) sigma3]);
+    disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1]);
+    disp([' ' F2name ': F(' n2s(v3) ',' n2s(v4) ')=' n2s(round_decs(F2,2)) ', p=' n2s(round_decs(P2,5)) sigma2]);
+    disp([' ' F1name ' x ' F2name ': F(' n2s(v5) ',' n2s(v6) ')=' n2s(round_decs(F3,2)) ', p=' n2s(round_decs(P3,5)) sigma3]);
     new_line;
 end
 
+%% Lower-bound corrected
+if (lbc)
+    % Determine lower-bound epsilon
+    eps1 = 1 / (a-1);
+    eps2 = 1 / (b-1);
+    eps3 = 1 / (max([a b])-1);
+
+    %Probability associated to the F-statistics.
+    P1 = 1 - fcdf(F1, v1*eps1, v2*eps1);    
+    P2 = 1 - fcdf(F2, v3*eps2, v4*eps2);   
+    P3 = 1 - fcdf(F3, v5*eps3, v6*eps3);
+    P4 = 1 - fcdf(F4, v7, v8);
+
+    if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
+    if P2 < alpha sigma2 = '  *'; else sigma2 = ''; end
+    if P3 < alpha sigma3 = '  *'; else sigma3 = ''; end
+
+    if nargout < 1    
+        disp('Lower-bound corrected');
+        disp('--------------------------------------------------------------------');
+        disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v2*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1]);
+        disp([' ' F2name ': F(' n2s(v3*eps2) ',' n2s(v4*eps2) ')=' n2s(F2) ', p=' n2s(P2) ', e=' n2s(eps2) sigma2]);
+        disp([' ' F1name ' x ' F2name ': F(' n2s(v5*eps3) ',' n2s(v6*eps3) ')=' n2s(F3) ', p=' n2s(P3) ', e=' n2s(eps3) sigma3]);
+        new_line;
+    end
+end
+
+P = [P1 P2 P3];

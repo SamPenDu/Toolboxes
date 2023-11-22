@@ -1,5 +1,5 @@
-function [RMAOV33] = RMAOV3(X, nS, F1name, F2name, F3name, lbc)
-%[RMAOV33] = RMAOV3(X, nS, F1name, F2name, F3name, lbc)
+function P = RMAOV3(X, nS, F1name, F2name, F3name, lbc)
+% P = RMAOV3(X, nS, F1name, F2name, F3name, lbc)
 %
 % RMAOV33 Three-way Analysis of Variance With Repeated Measures on Three Factors Test.
 %
@@ -467,55 +467,59 @@ if P5 < alpha sigma5 = '  *'; else sigma5 = ''; end
 if P6 < alpha sigma6 = '  *'; else sigma6 = ''; end
 if P7 < alpha sigma7 = '  *'; else sigma7 = ''; end
 
-disp('Sphericity assumed');
-disp('--------------------------------------------------------------------');
-disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1]);
-disp([' ' F2name ': F(' n2s(v3) ',' n2s(v4) ')=' n2s(round_decs(F2,2)) ', p=' n2s(round_decs(P2,5)) sigma2]);
-disp([' ' F3name ': F(' n2s(v5) ',' n2s(v6) ')=' n2s(round_decs(F3,2)) ', p=' n2s(round_decs(P3,5)) sigma3]);
-disp([' ' F1name ' x ' F2name ': F(' n2s(v7) ',' n2s(v8) ')=' n2s(round_decs(F4,2)) ', p=' n2s(round_decs(P4,5)) sigma4]);
-disp([' ' F1name ' x ' F3name ': F(' n2s(v9) ',' n2s(v10) ')=' n2s(round_decs(F5,2)) ', p=' n2s(round_decs(P5,5)) sigma5]);
-disp([' ' F2name ' x ' F3name ': F(' n2s(v11) ',' n2s(v12) ')=' n2s(round_decs(F6,2)) ', p=' n2s(round_decs(P6,5)) sigma6]);
-disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v13) ',' n2s(v14) ')=' n2s(round_decs(F7,2)) ', p=' n2s(round_decs(P7,5)) sigma7]);
-new_line;
-
-
-%% Lower-bound corrected
-% Determine lower-bound epsilon
-eps1 = 1 / (a-1);
-eps2 = 1 / (b-1);
-eps3 = 1 / (c-1);
-eps4 = 1 / (max([a b])-1);
-eps5 = 1 / (max([a c])-1);
-eps6 = 1 / (max([b c])-1);
-eps7 = 1 / (max([a b c])-1);
-
-%Probability associated to the F-statistics.
-P1 = 1 - fcdf(F1, v1*eps1, v2*eps1);    
-P2 = 1 - fcdf(F2, v3*eps2, v4*eps2);    
-P3 = 1 - fcdf(F3, v5*eps3, v6*eps3);    
-P4 = 1 - fcdf(F4, v7*eps4, v8*eps4);    
-P5 = 1 - fcdf(F5, v9*eps5, v10*eps5);    
-P6 = 1 - fcdf(F6, v11*eps6, v12*eps6);    
-P7 = 1 - fcdf(F7, v13*eps7, v14*eps7);    
-
-if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
-if P2 < alpha sigma2 = '  *'; else sigma2 = ''; end
-if P3 < alpha sigma3 = '  *'; else sigma3 = ''; end
-if P4 < alpha sigma4 = '  *'; else sigma4 = ''; end
-if P5 < alpha sigma5 = '  *'; else sigma5 = ''; end
-if P6 < alpha sigma6 = '  *'; else sigma6 = ''; end
-if P7 < alpha sigma7 = '  *'; else sigma7 = ''; end
-
-if (lbc)
-    disp('Lower-bound corrected');
+if nargout < 1
+    disp('Sphericity assumed');
     disp('--------------------------------------------------------------------');
-    disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v2*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1]);
-    disp([' ' F2name ': F(' n2s(v3*eps2) ',' n2s(v4*eps2) ')=' n2s(F2) ', p=' n2s(P2) ', e=' n2s(eps2) sigma2]);
-    disp([' ' F3name ': F(' n2s(v5*eps3) ',' n2s(v6*eps3) ')=' n2s(F3) ', p=' n2s(P3) ', e=' n2s(eps3) sigma3]);
-    disp([' ' F1name ' x ' F2name ': F(' n2s(v7*eps4) ',' n2s(v8*eps4) ')=' n2s(F4) ', p=' n2s(P4) ', e=' n2s(eps4) sigma4]);
-    disp([' ' F1name ' x ' F3name ': F(' n2s(v9*eps5) ',' n2s(v10*eps5) ')=' n2s(F5) ', p=' n2s(P5) ', e=' n2s(eps5) sigma5]);
-    disp([' ' F2name ' x ' F3name ': F(' n2s(v11*eps6) ',' n2s(v12*eps6) ')=' n2s(F6) ', p=' n2s(P6) ', e=' n2s(eps6) sigma6]);
-    disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v13*eps7) ',' n2s(v14*eps7) ')=' n2s(F7) ', p=' n2s(P7) ', e=' n2s(eps7) sigma7]);
+    disp([' ' F1name ': F(' n2s(v1) ',' n2s(v2) ')=' n2s(round_decs(F1,2)) ', p=' n2s(round_decs(P1,5)) sigma1]);
+    disp([' ' F2name ': F(' n2s(v3) ',' n2s(v4) ')=' n2s(round_decs(F2,2)) ', p=' n2s(round_decs(P2,5)) sigma2]);
+    disp([' ' F3name ': F(' n2s(v5) ',' n2s(v6) ')=' n2s(round_decs(F3,2)) ', p=' n2s(round_decs(P3,5)) sigma3]);
+    disp([' ' F1name ' x ' F2name ': F(' n2s(v7) ',' n2s(v8) ')=' n2s(round_decs(F4,2)) ', p=' n2s(round_decs(P4,5)) sigma4]);
+    disp([' ' F1name ' x ' F3name ': F(' n2s(v9) ',' n2s(v10) ')=' n2s(round_decs(F5,2)) ', p=' n2s(round_decs(P5,5)) sigma5]);
+    disp([' ' F2name ' x ' F3name ': F(' n2s(v11) ',' n2s(v12) ')=' n2s(round_decs(F6,2)) ', p=' n2s(round_decs(P6,5)) sigma6]);
+    disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v13) ',' n2s(v14) ')=' n2s(round_decs(F7,2)) ', p=' n2s(round_decs(P7,5)) sigma7]);
     new_line;
 end
 
+%% Lower-bound corrected
+if (lbc)
+    % Determine lower-bound epsilon
+    eps1 = 1 / (a-1);
+    eps2 = 1 / (b-1);
+    eps3 = 1 / (c-1);
+    eps4 = 1 / (max([a b])-1);
+    eps5 = 1 / (max([a c])-1);
+    eps6 = 1 / (max([b c])-1);
+    eps7 = 1 / (max([a b c])-1);
+
+    %Probability associated to the F-statistics.
+    P1 = 1 - fcdf(F1, v1*eps1, v2*eps1);    
+    P2 = 1 - fcdf(F2, v3*eps2, v4*eps2);    
+    P3 = 1 - fcdf(F3, v5*eps3, v6*eps3);    
+    P4 = 1 - fcdf(F4, v7*eps4, v8*eps4);    
+    P5 = 1 - fcdf(F5, v9*eps5, v10*eps5);    
+    P6 = 1 - fcdf(F6, v11*eps6, v12*eps6);    
+    P7 = 1 - fcdf(F7, v13*eps7, v14*eps7);    
+
+    if P1 < alpha sigma1 = '  *'; else sigma1 = ''; end
+    if P2 < alpha sigma2 = '  *'; else sigma2 = ''; end
+    if P3 < alpha sigma3 = '  *'; else sigma3 = ''; end
+    if P4 < alpha sigma4 = '  *'; else sigma4 = ''; end
+    if P5 < alpha sigma5 = '  *'; else sigma5 = ''; end
+    if P6 < alpha sigma6 = '  *'; else sigma6 = ''; end
+    if P7 < alpha sigma7 = '  *'; else sigma7 = ''; end
+
+    if nargout < 1
+        disp('Lower-bound corrected');
+        disp('--------------------------------------------------------------------');
+        disp([' ' F1name ': F(' n2s(v1*eps1) ',' n2s(v2*eps1) ')=' n2s(F1) ', p=' n2s(P1) ', e=' n2s(eps1) sigma1]);
+        disp([' ' F2name ': F(' n2s(v3*eps2) ',' n2s(v4*eps2) ')=' n2s(F2) ', p=' n2s(P2) ', e=' n2s(eps2) sigma2]);
+        disp([' ' F3name ': F(' n2s(v5*eps3) ',' n2s(v6*eps3) ')=' n2s(F3) ', p=' n2s(P3) ', e=' n2s(eps3) sigma3]);
+        disp([' ' F1name ' x ' F2name ': F(' n2s(v7*eps4) ',' n2s(v8*eps4) ')=' n2s(F4) ', p=' n2s(P4) ', e=' n2s(eps4) sigma4]);
+        disp([' ' F1name ' x ' F3name ': F(' n2s(v9*eps5) ',' n2s(v10*eps5) ')=' n2s(F5) ', p=' n2s(P5) ', e=' n2s(eps5) sigma5]);
+        disp([' ' F2name ' x ' F3name ': F(' n2s(v11*eps6) ',' n2s(v12*eps6) ')=' n2s(F6) ', p=' n2s(P6) ', e=' n2s(eps6) sigma6]);
+        disp([' ' F1name ' x ' F2name ' x ' F3name ': F(' n2s(v13*eps7) ',' n2s(v14*eps7) ')=' n2s(F7) ', p=' n2s(P7) ', e=' n2s(eps7) sigma7]);
+        new_line;
+    end
+end
+
+P = [P1 P2 P3 P4 P5 P6 P7];
