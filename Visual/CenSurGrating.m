@@ -7,7 +7,7 @@ function outputimg = CenSurGrating(inputimg, sigma, theta, lambda, phase, xpos, 
 %
 % Parameters:
 %   inputimg :  Input image to draw in (should have grey background)
-%   sigma :     Radius of whole grating envelope
+%   sigma :     Radius of central & whole grating envelope 
 %   theta :     Orientations of the carrier (0 deg = 3 o'clock, positive is counter-clockwise)
 %   lambda :    Wavelength of the carrier
 %   phase :     Phase of the carrier (cosine grating so 0 deg = light peak in middle)
@@ -36,14 +36,14 @@ theta = pi * theta / 180;
 phase = pi * phase / 180;
 
 % Coordinates of all pixels of the Gabor relative to its centre
-[X Y] = meshgrid(-3*sigma : 3*sigma, -3*sigma : 3*sigma);
+[X Y] = meshgrid(-3*sigma(2) : 3*sigma(2), -3*sigma(2) : 3*sigma(2));
 R = sqrt(X.^2 + Y.^2);
 T = zeros(size(R));
-T(R < 0.4*sigma) = theta(1);
-T(R >= 0.4*sigma) = theta(2);
+T(R < sigma(1)) = theta(1);
+T(R >= sigma(1)) = theta(2);
 C = ones(size(R)) * contr/2;
-C(R > 0.395*sigma & R < 0.405*sigma) = 0;
-C(R > sigma) = 0;
+C(R > sigma(1) & R < sigma(1)+4) = 0;
+C(R > sigma(2)) = 0;
 
 % Luminance modulation at each pixel
 L = (cos(2*pi .* (cos(T).*X + sin(T).*Y) ./ lambda + phase)) .* C;

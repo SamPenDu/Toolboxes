@@ -1,13 +1,14 @@
-function [Staircase, IsReversal] = UpdateStaircase(Condit, InStairs, StepSize, Jitter)
-%[Staircase, IsReversal] = UpdateStaircase(Condit, InStairs, StepSize, [Jitter=[0 3]])
+function [Staircase, IsReversal, JitterNextTrial] = UpdateStaircase(Condit, InStairs, StepSize, Jitter)
+%[Staircase, IsReversal, WasJittered] = UpdateStaircase(Condit, InStairs, StepSize, [Jitter=[0 3]])
 % 
 % Updates the staircase for stimulus condition Condit. If the criterion for a 
 % step are fulfilled, the Signal is changed accordingly. For a downwards staircase 
 % (e.g. contrast-detection) the StepSize is negative. If the current step is a 
-% reversal, the flag IsReversal is set.
+% reversal, the flag IsReversal is set to 1.
 %
 % The optional input argument Jitter is a 1x2 vector & defines staircase jittering. 
-% You can use this to prevent a 50% staircase from saturating at chance.
+% You can use this to prevent a 50% staircase from saturating at chance. 
+% If the next is to be jittered, JitterNextTrial is set to 1.
 % 
 %   Jitter(1) defines the probability that a given trial is jittered. 
 %   Jitter(2) defines the number of step sizes by which the current level is moved back 
@@ -35,6 +36,7 @@ if rand < Jitter(1)
     if Staircase.Signal(Condit) > Staircase.Range(2)
         Staircase.Signal(Condit) = Staircase.Range(2);
     end    
+    JitterNextTrial = 1;
 else
     %% Standard trial
     if Staircase.Correct(Condit) >= Staircase.UpDown(1)
@@ -72,5 +74,6 @@ else
             Staircase.Signal(Condit) = Staircase.Range(2);
         end    
     end
+    JitterNextTrial = 0;
 end
 

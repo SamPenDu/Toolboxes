@@ -42,7 +42,7 @@ T = zeros(size(R));
 T(R < 0.8*sigma) = theta(1);
 T(R >= 0.8*sigma) = theta(2);
 C = ones(size(R)) * contr/2;
-C(R > sigma*0.7 & R < sigma*0.9) = 0;
+C(R > sigma*0.75 & R < sigma*0.85) = 0;
 
 % Luminance modulation at each pixel:
 % Gabor function = oriented sinusoidal carrier grating within a Gaussian envelope.
