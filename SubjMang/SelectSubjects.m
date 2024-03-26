@@ -13,10 +13,10 @@ if nargin == 0
 end
 
 load([sname '.subj'], '-mat');
-initials = {Ss.Initials};
+SubjID = {Ss.ID};
 
 if nargin > 1
-    Snums = listdlg('PromptString', 'Select subjects', 'ListString', initials, 'SelectionMode', 'single');
+    Snums = listdlg('PromptString', 'Select subjects', 'ListString', SubjID, 'SelectionMode', 'single');
 else
-    Snums = listdlg('PromptString', 'Select subjects', 'ListString', initials);
+    Snums = listdlg('PromptString', 'Select subjects', 'ListString', SubjID);
 end

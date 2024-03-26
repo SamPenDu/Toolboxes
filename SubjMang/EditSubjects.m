@@ -35,14 +35,16 @@ for i = eS
     %open dialogue box & return new values 
     new_details = inputdlg(subject_details, ['Subject ' num2str(i) ' details'], 1, defaults);
     %add details to current study
-    curr = struct;
-    for f = 1:length(subject_details)
-        if subject_detail_classes(f) == '#'
-            new_details{f} = str2num(new_details{f});
+    if ~isempty(new_details)
+        curr = struct;
+        for f = 1:length(subject_details)
+            if subject_detail_classes(f) == '#'
+                new_details{f} = str2num(new_details{f});
+            end
+            curr = setfield(curr, subject_details{f}, new_details{f});
         end
-        curr = setfield(curr, subject_details{f}, new_details{f});
+        Ss(i) = curr;
     end
-    Ss(i) = curr;
 end
 
 %save subject data again

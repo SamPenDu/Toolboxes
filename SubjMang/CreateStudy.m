@@ -21,7 +21,7 @@ if exist([sname '.subj'], 'file')
 end
 
 %add extra subject details if they are defined
-subject_details = {'Initials' 'Age' 'Gender' 'Handedness'};
+subject_details = {'ID' 'Age' 'Gender' 'Handedness'};
 subject_detail_classes = '-#--';
 n = length(subject_details);
 %if extra details were defined
