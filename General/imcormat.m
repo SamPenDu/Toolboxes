@@ -5,6 +5,7 @@ function imcormat(R, P, labels, pcor)
 %   Displays the correlation matrix R as an image.
 %
 %   P defines the p value but this is optional (can also set to []).
+%   If pcor is Inf, P contains Bayes Factors instead.
 %
 %   The cell matrix labels defines the labels of each column/row.
 %
@@ -13,7 +14,7 @@ function imcormat(R, P, labels, pcor)
 %
 
 % Global variable
-global Rmat
+global Rmat pcor
 
 if nargin < 2
     P = [];
@@ -48,9 +49,9 @@ cm = [0 0 0; 1 1 1; 1 1 1; 1 1 1; 1 1 1; 1 1 1; 0 0 0; 0 0 0];
 colormap(gca, colourscale(200));
 
 % Bonferroni threshold
-if pcor > 0
+if pcor == 1
     nc = n^2; % Bonferroni threshold over full matrix
-elseif pcor < 0
+elseif pcor == -1
     cs = cumsum(1:n-1); % Half size of matrix
     nc = cs(end); % Number of comparisons
 else
@@ -61,24 +62,57 @@ end
 if ~isempty(P)
     for r = 1:n
         for c = 1:n
-            % What significance threshold
-            if P(r,c) < 0.05 
-                s = '+'; 
-            end
-            if P(r,c) < 0.05/nc 
-                s = '*'; 
-            end
-            if P(r,c) < 0.001/nc 
-                s = 'h'; 
-            end
-            
-            % If significant at any threshold
-            if P(r,c) < 0.05
-                cc = round((R(r,c)/2+.5)*8);
-                if cc == 0
-                    cc = 1;
+            % Bayesian or frequentist?
+            if isinf(pcor)
+                s = '';
+                % Which Bayes Factor?
+                if P(r,c) < 1/3
+                    s = 'o'; % Moderately H0
                 end
-                scatter(c*75-37.5, r*75-37.5, 150, cm(cc,:), s);
+                if P(r,c) < 1/10
+                    s = 's'; % Strongly H0
+                end
+                if P(r,c) < 1/100
+                    s = 'd'; % Decisively H0
+                end
+                if P(r,c) > 3
+                    s = '*'; % Moderately H1
+                end
+                if P(r,c) > 10
+                    s = 'p'; % Strongly H1
+                end
+                if P(r,c) > 100
+                    s = 'h'; % Decisively H1
+                end
+                
+                % If above/below criterion
+                if P(r,c) < 1/3 || P(r,c) > 3
+                    cc = round((R(r,c)/2+.5)*8);
+                    if cc == 0
+                        cc = 1;
+                    end
+                    scatter(c*75-37.5, r*75-37.5, 150, cm(cc,:), s);
+                end
+            else
+                % What significance threshold?
+                if P(r,c) < 0.05 
+                    s = '+'; 
+                end
+                if P(r,c) < 0.05/nc 
+                    s = '*'; 
+                end
+                if P(r,c) < 0.001/nc 
+                    s = 'h'; 
+                end
+
+                % If significant at any threshold
+                if P(r,c) < 0.05
+                    cc = round((R(r,c)/2+.5)*8);
+                    if cc == 0
+                        cc = 1;
+                    end
+                    scatter(c*75-37.5, r*75-37.5, 150, cm(cc,:), s);
+                end
             end
         end
     end
@@ -101,11 +135,18 @@ set(gcf, 'CloseRequestFcn', crfcn);
 
 %% Subfunctions
 function txt = getpixelfun(empt, event_obj)
-global Rmat
+global Rmat pcor
 pos = get(event_obj, 'Position');
 if size(Rmat,3) > 1
-    txt = {['R = ' num2str((Rmat(pos(2),pos(1),1)-.5)*2)]; ...
-           ['P = ' num2str(Rmat(pos(2),pos(1),2))]};
+    if isinf(pcor)
+        % Bayesian test
+        txt = {['R = ' num2str((Rmat(pos(2),pos(1),1)-.5)*2)]; ...
+               ['BF_{10} = ' num2str(Rmat(pos(2),pos(1),2))]};
+    else
+        % Frequentist test
+        txt = {['R = ' num2str((Rmat(pos(2),pos(1),1)-.5)*2)]; ...
+               ['P = ' num2str(Rmat(pos(2),pos(1),2))]};
+    end
 else
     txt = ['R = ' num2str((Rmat(pos(2),pos(1))-.5)*2)]; 
 end
