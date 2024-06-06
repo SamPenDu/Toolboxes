@@ -1,4 +1,4 @@
-function ScatterPlot(X, Y, Colour, IsRobust)
+function h = ScatterPlot(X, Y, Colour, IsRobust)
 %
 % Plots the data in Y against X with regression lines and confidence regions.
 %
@@ -36,7 +36,7 @@ fill([x fliplr(x)], [Ci(1,:) fliplr(Ci(2,:))], (Colour+[1 1 1])/2, 'EdgeColor', 
 hold on
 
 % Scatter plots
-scatter(X, Y, 100, Colour, 'filled'); 
+h = scatter(X, Y, 100, Colour, 'filled'); 
 set(gca, 'fontsize', 12);
 axis square
 
