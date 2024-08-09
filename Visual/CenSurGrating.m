@@ -8,20 +8,23 @@ function outputimg = CenSurGrating(inputimg, sigma, theta, lambda, phase, xpos, 
 % Parameters:
 %   inputimg :  Input image to draw in (should have grey background)
 %   sigma :     Radius of central & whole grating envelope 
-%   theta :     Orientations of the carrier (0 deg = 3 o'clock, positive is counter-clockwise)
-%   lambda :    Wavelength of the carrier
+%   theta :     Orientations of the carriers (0 deg = 3 o'clock, positive is counter-clockwise)
+%   lambda :    Wavelength of the carriers (only one for both)
 %   phase :     Phase of the carrier (cosine grating so 0 deg = light peak in middle)
-%   xpos :      X pixel coordinate of the Gabor centre in the image 
-%   ypos :      Y pixel coordinate of the Gabor centre in the image
-%   contr :     Optional, defines the contrast of the Gabor between 0-1
+%   xpos :      X pixel coordinate of the grating centre in the image 
+%   ypos :      Y pixel coordinate of the grating centre in the image
+%   contr :     Optional, defines the contrasts of the gratings between 0-1
 %
-% The function returns the new image containing the new Gabor element.
+% The function returns the new image containing the new grating.
 % Angles and phases are passed in degrees and converted into radians internally.
 %
 
 % If contrast undefined it is 100%
 if nargin < 8
-    contr = 1;
+    contr = [1 1];
+end
+if length(contr) == 1
+    contr = [contr contr];
 end
 
 % Create output image
@@ -41,7 +44,8 @@ R = sqrt(X.^2 + Y.^2);
 T = zeros(size(R));
 T(R < sigma(1)) = theta(1);
 T(R >= sigma(1)) = theta(2);
-C = ones(size(R)) * contr/2;
+C = ones(size(R)) * contr(1)/2;
+C(R > sigma(1) & R <= sigma(2)) = contr(2)/2;
 C(R > sigma(1) & R < sigma(1)+4) = 0;
 C(R > sigma(2)) = 0;
 
