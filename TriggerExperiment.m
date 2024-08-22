@@ -6,5 +6,9 @@
 % % BUCNI setup
 % config_and_wait_trigger(1);
 
-% CAMRI setup
-WaitForMRITrigger;
+% % Obsolete CAMRI setup 
+% WaitForMRITrigger;
+
+% New CAMRI setup
+[~,~,bk] = KbCheck;           
+bkp = ismember(KbName('1!'), find(bk));

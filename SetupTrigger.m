@@ -8,5 +8,8 @@
 % BUCNI setup 
 %   needs nothing...
 
-% CAMRI setup
-config_io;
+% % Obsolete CAMRI setup
+% config_io;
+
+% New CAMRI setup
+%   needs nothing...

@@ -57,6 +57,9 @@ end
 if ~isfield(Parameters, 'Gamma')
     Parameters.Gamma = 1; % If gamma undefined, don't use
 end
+if length(Screen('Screens')) == 1  && Parameters.Screen > 0
+    Parameters.Screen = 0; % If only one screen
+end
 PsychImaging('PrepareConfiguration');
 PsychImaging('AddTask', 'FinalFormatting', 'DisplayColorCorrection', 'SimpleGamma');
 [Win, Rect] = PsychImaging('OpenWindow', Parameters.Screen, Parameters.Background, Parameters.Resolution, 32, 2, Parameters.Stereo); 
