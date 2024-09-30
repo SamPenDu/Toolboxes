@@ -1,12 +1,13 @@
 % Clean up MatLab
-close all;
-clear all;
-clear global all;
+close all
+clear all
 SetupRand;
-clc;
 
 % In case Psychtoolbox exists
 try 
     Screen('Preference', 'SkipSyncTests', 1);
+    pause(.1);
 catch
 end
+clear ans
+clc
