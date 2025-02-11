@@ -10,8 +10,5 @@
 % WaitForMRITrigger;
 
 % New CAMRI setup
-bkp = false;
-while ~bkp
-    [~,~,bk] = KbCheck;           
-    bkp = ismember(KbName('5%'), find(bk));
-end
+[bkp, bkt, bk] = KbCheck;           
+bkp = ismember(KbName('5%'), find(bk));

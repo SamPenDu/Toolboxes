@@ -39,6 +39,7 @@ hold on
 h = scatter(X, Y, 100, Colour, 'filled'); 
 set(gca, 'fontsize', 12);
 axis square
+grid on
 
 % Regression lines
 if IsRobust

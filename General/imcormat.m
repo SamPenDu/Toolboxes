@@ -10,7 +10,11 @@ function imcormat(R, P, labels, pcor)
 %   The cell matrix labels defines the labels of each column/row.
 %
 %   The final input pcor toggles how Bonferroni correction is used:
-%       0: no correction (default), +1: full matrix, -1: half matrix only
+%
+%         0: no correction (default) 
+%        +1: full matrix
+%        -1: half matrix only
+%       Inf: Bayes Factor
 %
 
 % Global variable
@@ -95,18 +99,21 @@ if ~isempty(P)
                 end
             else
                 % What significance threshold?
-                if P(r,c) < 0.05 
+                if P(r,c) < 0.05/nc 
                     s = '+'; 
                 end
-                if P(r,c) < 0.05/nc 
+                if P(r,c) < 0.01/nc 
                     s = '*'; 
                 end
                 if P(r,c) < 0.001/nc 
+                    s = 'p'; 
+                end
+                if P(r,c) < 0.0001/nc 
                     s = 'h'; 
                 end
 
                 % If significant at any threshold
-                if P(r,c) < 0.05
+                if P(r,c) < 0.05/nc
                     cc = round((R(r,c)/2+.5)*8);
                     if cc == 0
                         cc = 1;
