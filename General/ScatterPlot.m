@@ -3,7 +3,8 @@ function h = ScatterPlot(X, Y, Colour, IsRobust)
 % Plots the data in Y against X with regression lines and confidence regions.
 %
 %   Colour:     Plot colour as a RGB vector (default = [0 0 0])
-%   IsRobust:   If this is true uses a robust fit (default = false)
+%   IsRobust:   If this is true uses a robust fit (default = 0)
+%               If this is NaN, it uses linear regression & no confidence interval.
 %
 
 % Default parameters
@@ -11,7 +12,7 @@ if nargin < 3
     Colour = [0 0 0];
 end
 if nargin < 4
-    IsRobust = false;
+    IsRobust = 0;
 end
 
 % Plot to get dimensions
@@ -21,28 +22,30 @@ axis square
 xl = xlim; yl = ylim;
 
 % Bootstrapped regression lines
-x = xl(1)-range(xl):range(xl)/100:xl(2)+range(xl); % X-vector for confidence curve
-if IsRobust
-    bF = bootstrp(10000, @robustfit, X, Y);    
-    bF = fliplr(bF); % Slope is first
-else
-    bF = bootstrp(10000, @polyfit, X, Y, 1);
+if ~isnan(IsRobust)
+    x = xl(1)-range(xl):range(xl)/100:xl(2)+range(xl); % X-vector for confidence curve
+    if IsRobust 
+        bF = bootstrp(10000, @robustfit, X, Y);    
+        bF = fliplr(bF); % Slope is first
+    else   
+        bF = bootstrp(10000, @polyfit, X, Y, 1);
+    end
+    Ys = bF(:,1) .* repmat(x,10000,1) + bF(:,2);
+    
+    % Regression confidence region
+    Ci = prctile(Ys, [2.5 97.5]);
+    fill([x fliplr(x)], [Ci(1,:) fliplr(Ci(2,:))], (Colour+[1 1 1])/2, 'EdgeColor', Colour, 'FaceAlpha', 0.5);
 end
-Ys = bF(:,1) .* repmat(x,10000,1) + bF(:,2);
-
-% Regression confidence region
-Ci = prctile(Ys, [2.5 97.5]);
-fill([x fliplr(x)], [Ci(1,:) fliplr(Ci(2,:))], (Colour+[1 1 1])/2, 'EdgeColor', Colour, 'FaceAlpha', 0.5);
-hold on
 
 % Scatter plots
+hold on
 h = scatter(X, Y, 100, Colour, 'filled'); 
 set(gca, 'fontsize', 12);
 axis square
 grid on
 
 % Regression lines
-if IsRobust
+if IsRobust == 1
     F = robustfit(X, Y);
     F = fliplr(F'); % Slope is first
     Cs = correl(X,Y,'s');
