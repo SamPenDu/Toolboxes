@@ -19,7 +19,7 @@ while CheckDists
     b = [];
     % Check which points are too close
     for i = 2:N
-        if sum(Ds(1:i-1,i) < Radius) > 0
+        if sum(Ds(1:i-1,i) < Radius*2) > 0
             b = [b i];
         end
     end
