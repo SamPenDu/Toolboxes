@@ -295,7 +295,7 @@ for Trial = 1 : length(Parameters.Conditions)
         % If saving movie
         if abs(SaveAps) == 1 && PrevVolume ~= CurrVolume
             PrevVolume = CurrVolume;
-            CurApImg = Screen('GetImage', Win);     
+            CurApImg = Screen('GetImage', Win, Rect, 'backBuffer');     
             CurApImg = rgb2gray(CurApImg);
             CurApImg = double(abs(double(CurApImg)-127)>1);
             if SaveAps == 1
@@ -318,7 +318,7 @@ for Trial = 1 : length(Parameters.Conditions)
             end
             ApFrm(:,:,Parameters.Volumes_per_Trial*(Trial-1)+CurrVolume) = CurApImg;
         elseif SaveAps == 2
-            CurApImg = Screen('GetImage', Win);     
+            CurApImg = Screen('GetImage', Win, Rect, 'backBuffer');     
             CurApImg = imresize(CurApImg, [270 480]);
             sf = sf + 1;
             ApFrm(:,:,:,sf) = CurApImg;

@@ -262,7 +262,7 @@ for Block = 0 : Parameters.Blocks_per_Expmt-1
         eval(Parameters.Stimulus_Sequence);  % Custom script for each experiment!
               
         % Abort if Escape was pressed
-        if ismember(KeyCodes.Escape, find(TrialOutput.Key)) | find(TrialOutput.Key) == 2 | find(TrialOutput.Key) == 3 
+        if ismember(KeyCodes.Escape, find(TrialOutput.Key)) || mean(TrialOutput.Key) == 1
             % Abort screen
             Screen('SelectStereoDrawBuffer', Win, 0);
             Screen('FillRect', Win, Parameters.Background, Rect);
