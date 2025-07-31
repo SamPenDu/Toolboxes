@@ -1,6 +1,6 @@
 function bf10 = t2smpbf(t,nx,ny,r)
 %
-% bf10 = t2smpbf(t,n,[r=0.707])
+% bf10 = t2smpbf(t,nx,ny,[r=0.707])
 %
 % Calculates JZS Bayes Factor for a two-sample t-test given t and sample sizes nx and ny.
 % The optional input r is the scale factor which defaults to 0.707.

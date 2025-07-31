@@ -170,10 +170,3 @@ if nargin == 0
     res = 256;
 end
 cmap = berlin(res);
-
-% Old red-white-blue colour scheme 
-% steps = res/4;
-% cmap = [linspace(0,0,steps)' linspace(1,0,steps)' linspace(1,1,steps)'; ...
-%         linspace(0,1,steps)' linspace(0,1,steps)' linspace(1,1,steps)'; ...
-%         linspace(1,1,steps)' linspace(1,0,steps)' linspace(1,0,steps)'; ...
-%         linspace(1,1,steps)' linspace(0,1,steps)' linspace(0,0,steps)'];
