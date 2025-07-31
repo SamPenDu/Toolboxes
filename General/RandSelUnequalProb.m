@@ -3,6 +3,8 @@ function rX = RandSelUnequalProb(X, P, n)
 % Selects n random elements from matrix X using the 
 % probability matrix P that any given element is picked. 
 %
+% Important: P and X must have the same dimensions!
+%
 % First it runs a uniform randomiser on all elements of X. 
 % Any that pass the threshold defined in P pass triage.
 % Out of these candidates, n are the chosen at random. 
@@ -12,6 +14,9 @@ function rX = RandSelUnequalProb(X, P, n)
 %
 % 31/07/2025 - Written (DSS)
 
+if mean(size(X) == size(P)) ~= 1
+    error('Dimensions of X and P must be identical!');
+end
 if n > numel(X)
     error('n must be equal or less than the size of X!');
 end
