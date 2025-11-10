@@ -34,7 +34,7 @@ end
 
 xy = [];
 
-if length(radfreq) == 1
+if isscalar(radfreq)
 %second frequency is undefined
     %second = first / 2
     if mod(radfreq,2) 

@@ -1,4 +1,5 @@
 function rX = RandSelUnequalProb(X, P, n)
+% rX = RandSelUnequalProb(X, P, [n=1])
 %
 % Selects n random elements from matrix X using the 
 % probability matrix P that any given element is picked. 
@@ -13,6 +14,11 @@ function rX = RandSelUnequalProb(X, P, n)
 % Returns a column vector of the chosen elements
 %
 % 31/07/2025 - Written (DSS)
+% 04/11/2025 - Default n is now 1 (DSS)
+
+if nargin < 3
+    n = 1;
+end
 
 if mean(size(X) == size(P)) ~= 1
     error('Dimensions of X and P must be identical!');
