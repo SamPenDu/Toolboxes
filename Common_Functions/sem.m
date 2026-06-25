@@ -1,5 +1,10 @@
-function e = sem(x)
-%Calculates standard error of the mean for x.
-%This is across rows in x. For columns transpose.
+function e = sem(x, dim)
+% Calculates standard error of the mean for x.
+% By default, this is across rows in x. For columns or other dimensions,
+% define dim > 1.
 
-e = sqrt(nanvar(x)./sum(~isnan(x)));
+if nargin < 2
+    dim = 1;
+end
+
+e = sqrt(nanvar(x, 0, dim) ./ sum(~isnan(x), dim));
